@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How We All Became NPCs — $200/Session Well Spent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --accent: #ff3c3c;
+      --accent2: #ffcc00;
+      --text: #f0ece4;
+      --muted: #888;
+      --border: #222;
+    }
+
+```
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.4;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem 2rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,60,60,0.12) 0%, transparent 70%);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,204,0,0.07) 0%, transparent 70%);
+  animation: pulse 8s ease-in-out infinite reverse;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.hero-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.2s;
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.4s;
+}
+
+.hero h1 span {
+  color: var(--accent);
+  display: block;
+}
+
+.hero h1 em {
+  color: var(--accent2);
+  font-style: normal;
+}
+
+.hero-sub {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--muted);
+  margin-top: 1.5rem;
+  max-width: 560px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.6s;
+}
+
+.hero-meta {
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.8s;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  writing-mode: vertical-rl;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 1.2s;
+}
+
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: var(--accent);
+  margin: 0.5rem auto 0;
+  animation: lineGrow 1.5s ease infinite;
+}
+
+@keyframes lineGrow {
+  0% { height: 0; opacity: 0; }
+  50% { height: 40px; opacity: 1; }
+  100% { height: 40px; opacity: 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ARTICLE BODY */
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+/* SECTION MARKERS */
+.section-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5rem;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: -1rem;
+  user-select: none;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+.section-title .highlight {
+  color: var(--accent);
+}
+
+.section-title .highlight2 {
+  color: var(--accent2);
+}
+
+p {
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  margin-bottom: 1.5rem;
+  color: #d8d4cc;
+}
+
+/* PULL QUOTES */
+.pullquote {
+  border-left: 3px solid var(--accent);
+  margin: 3rem 0;
+  padding: 1.5rem 2rem;
+  background: rgba(255,60,60,0.04);
+}
+
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* CALLOUT BOXES */
+.callout {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent2);
+  padding: 2rem;
+  margin: 2.5rem 0;
+  position: relative;
+}
+
+.callout-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 0.75rem;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* DIVIDER */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 4rem 0;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.divider span {
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--accent);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+}
+
+/* BIG STATEMENT */
+.big-statement {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  margin: 3rem 0;
+  color: var(--text);
+}
+
+.big-statement .red { color: var(--accent); }
+.big-statement .yellow { color: var(--accent2); }
+
+/* VERSUS BOX */
+.versus {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  margin: 3rem 0;
+  border: 1px solid var(--border);
+}
+
+.versus-side {
+  padding: 2rem 1.5rem;
+}
+
+.versus-side:first-child {
+  border-right: 1px solid var(--border);
+  background: rgba(255,60,60,0.04);
+}
+
+.versus-side:last-child {
+  background: rgba(255,204,0,0.04);
+}
+
+.versus-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.versus-side h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+}
+
+.versus-side:last-child h3 {
+  color: var(--accent2);
+}
+
+.versus-side p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.versus-mid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.footer .big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: var(--border);
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+/* READING PROGRESS */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  width: 0%;
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .versus {
+    grid-template-columns: 1fr;
+  }
+  .versus-mid {
+    border-right: none;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem;
+  }
+  .versus-side:first-child {
+    border-right: none;
+    border-bottom: none;
+  }
+  .pullquote {
+    padding: 1rem 1.25rem;
+  }
+}
+```
+
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-tag">Culture & Relationships · 2026</div>
+  <h1>How We All <span>Became NPCs</span> — <em>$200/Session</em> Well Spent</h1>
+  <p class="hero-sub">How a generation that knows everything about relationships forgot how to be in one.</p>
+  <p class="hero-meta">2026 · 8 min read</p>
+  <span class="scroll-hint">Scroll</span>
+</section>
+
+<!-- ARTICLE -->
+
+<article class="article">
+
+  <!-- SECTION 1 -->
+
+  <div class="section-num">01</div>
+  <h2 class="section-title">The Movie That <span class="highlight">Couldn't Be Made</span> Today</h2>
+
+  <p>In 2003, Hollywood released a rom-com called <em>How to Lose a Guy in 10 Days</em>. Kate Hudson plays a magazine writer who must drive a man away in ten days for an article. Matthew McConaughey plays an ad exec who bets his boss he can make any woman fall in love with him in ten days. They both pick each other without knowing the other has an agenda.</p>
+
+  <p>It made $105 million at the box office. People loved it. It became a classic.</p>
+
+  <p>Now try pitching that movie in 2026.</p>
+
+  <div class="callout">
+    <div class="callout-label">The Pitch Meeting, 2026</div>
+    <p>
+      "Okay so she's faking emotional instability for a <em>magazine article</em>—"<br><br>
+      "That's literally stigmatizing mental illness—"<br><br>
+      "And he's treating a real woman like a <em>bet</em>—"<br><br>
+      "Textbook objectification—"<br><br>
+      "But they fall in love—"<br><br>
+      "With each other?? While actively manipulating each other??"<br><br>
+      "And we root for them—"<br><br>
+      "I'm calling HR."<br><br>
+      <em>*three think pieces published* *Twitter ratio'd* *director apologizes* *movie never made*</em><br><br>
+      Meanwhile the 2003 version is still on Netflix with a 72% audience score. Make it make sense.
+    </p>
+  </div>
+
+  <p>The genre didn't just fade out. It got cancelled by the very generation that grew up watching it. And on the surface, that sounds like progress. We got smarter. We recognized manipulation. We set standards.</p>
+
+  <p>Except — we didn't get smarter about love. We got more <em>afraid</em> of it.</p>
+
+  <div class="divider"><span>★</span></div>
+
+  <!-- SECTION 2 -->
+
+  <div class="section-num">02</div>
+  <h2 class="section-title">The <span class="highlight">Real</span> Manipulation vs. The <span class="highlight2">New</span> One</h2>
+
+  <p>Here's something nobody wants to say out loud: the manipulation in those old rom-coms was almost honest. It was visible. Theatrical. You could see the game being played — and because you could see it, you could survive it, laugh at it, and still fall in love through it.</p>
+
+  <div class="pullquote">
+    <p>"The old manipulation was loud and cinematic. The new manipulation is quiet, deniable, and gaslit. Which one is actually more dangerous?"</p>
+  </div>
+
+  <p>Because the manipulation didn't disappear when we cancelled the rom-com. It just got a vocabulary upgrade. Now it sounds like this:</p>
+
+  <p><em>"I'm not leading you on, I just don't like labels."</em><br>
+  <em>"I'm not pulling away, I'm just in my healing era."</em><br>
+  <em>"I'm not lying, I just didn't feel safe enough to share."</em><br>
+  <em>"I'm not ghosting you, I'm protecting my energy."</em></p>
+
+  <p>Say that last one out loud. Really sit with it. Someone disappeared on you — left you on read for eleven days — and framed it as a wellness decision. And somehow that's more acceptable than Kate Hudson throwing a guy's sports memorabilia in the trash.</p>
+
+  <p>The new version is synthetic. It looks like authenticity but it's the most carefully constructed performance in human history. We have a generation that posts "no filter" selfies with three filters. That shares "raw and vulnerable" moments they rehearsed twice. That performs being unbothered so consistently — it becomes its own kind of bothered.</p>
+
+  <div class="big-statement">
+    The most <span class="red">"authentic"</span> generation in history is also the most <span class="yellow">curated.</span>
+  </div>
+
+  <div class="divider"><span>★</span></div>
+
+  <!-- SECTION 3 -->
+
+  <div class="section-num">03</div>
+  <h2 class="section-title">The <span class="highlight2">Attachment Style</span> Disaster</h2>
+
+  <p>And then came the science. Or what people <em>think</em> is science.</p>
+
+  <p>Somewhere in the last decade, therapy-speak escaped the therapy room and colonized dating culture entirely. Now everyone has an attachment style, a love language, a trauma response, a trigger, a boundary, an inner child, and a list of green flags they're checking off on a first date like it's a performance review.</p>
+
+  <div class="callout">
+    <div class="callout-label">Fun Fact Nobody Mentions</div>
+    <p>Attachment theory was developed by John Bowlby in the 1950s to study infants and their mothers. Mary Ainsworth's famous "Strange Situation" experiment — the one that gave us "anxious," "avoidant," and "secure" attachment — involved toddlers being separated from their mothers in a lab. Actual children. Actual toddlers. Not adults on Hinge.</p>
+  </div>
+
+  <p>And somewhere between that lab in the 1950s and your situationship in 2026 — someone decided that the reason a one-year-old cries when mommy leaves the room explains why he hasn't texted you back in three days.</p>
+
+  <p><em>"Sorry, I can't be with you. Your anxious attachment triggers my avoidant attachment."</em></p>
+
+  <p>A theory about babies. Used to end a relationship between two adults. Said with complete confidence. In a <em>breakup text.</em></p>
+
+  <p>And don't even get me started on love languages. Oh, your love language is acts of service? Fascinating. His is words of affirmation? Groundbreaking. You two are now in a communication crisis after three dates because your love languages are "misaligned" — like you're enterprise software that failed to integrate.</p>
+
+  <p>Meanwhile your grandparents figured it out with zero vocabulary for any of this. No quiz. No workbook. No TikTok explainer at 2am. They just <em>paid attention.</em> They watched each other. They showed up. They figured it out as they went — together, in real time, like two actual humans sharing a life instead of two psychological profiles negotiating a contract.</p>
+
+  <div class="pullquote">
+    <p>"Just figure it out. Fight about it. Cry about it. Get it wrong. Try again. You don't need a framework. You need to actually be there."</p>
+  </div>
+
+  <p>Nobody's grandmother asked if her husband was a "secure attacher" before she married him. She met someone. There was something there. They figured it out together. They fought. They stayed. The end.</p>
+
+  <p>Now we have people who can't commit to a second date without running a full psychological profile first. And they're calling that <em>self-awareness.</em></p>
+
+  <div class="callout">
+    <div class="callout-label">Translation</div>
+    <p>Self-awareness: knowing yourself deeply enough to show up for someone else.<br><br>
+    What we're actually doing: using the language of self-awareness to avoid the terrifying experience of being truly known by someone else.</p>
+  </div>
+
+  <p>They're not getting rigor. They're getting armor. Expensive, therapy-branded, Instagram-infographic armor. $200 a session. Well spent.</p>
+
+  <div class="divider"><span>★</span></div>
+
+  <!-- SECTION 4 -->
+
+  <div class="section-num">04</div>
+  <h2 class="section-title">Raw vs. <span class="highlight">Toxic</span> — The Distinction Nobody Makes</h2>
+
+  <p>Here's the thing that gets completely lost in modern dating culture:</p>
+
+  <div class="versus">
+    <div class="versus-side">
+      <div class="versus-label">This is toxic</div>
+      <h3>Harmful</h3>
+      <p>I hurt you because I can't control myself — and I don't care that I hurt you. I have no interest in doing better. You are a target, not a person.</p>
+    </div>
+    <div class="versus-mid">VS</div>
+    <div class="versus-side">
+      <div class="versus-label">This is human</div>
+      <h3>Raw & Real</h3>
+      <p>I'm messy. You're messy. We crash into each other sometimes. We say the wrong thing. We get scared. And we both keep showing up anyway.</p>
+    </div>
+  </div>
+
+  <p>Modern dating culture collapsed that distinction entirely. Any friction became a red flag. Any conflict became incompatibility. Any intensity became a "trauma response" to analyze in a voice note to your group chat at 2am.</p>
+
+  <p>So people started optimizing. Building checklists. Rating green flags. Running compatibility assessments. And what came out the other side? A generation that can <em>diagnose</em> a relationship perfectly — and <em>feel</em> almost nothing in it.</p>
+
+  <p>Because when you're constantly evaluating whether someone fits the frame — you are never actually present with them. You're auditing them. And you cannot fall in love with someone you're auditing.</p>
+
+  <div class="big-statement">
+    You don't need to <span class="red">understand</span> someone to <span class="yellow">choose</span> them.
+  </div>
+
+  <div class="divider"><span>★</span></div>
+
+  <!-- SECTION 5 -->
+
+  <div class="section-num">05</div>
+  <h2 class="section-title">The <span class="highlight">Real</span> Divide</h2>
+
+  <p>We keep framing this as men vs. women. He's emotionally unavailable. She has standards. He won't commit. She's too independent.</p>
+
+  <p>But that's the wrong fight.</p>
+
+  <p>Because women didn't become cold. They got tired. Tired of managing someone else's emotions while nobody managed theirs. Tired of being the therapist, the mother, the cheerleader, the lover — all at once — for someone who couldn't name a single feeling out loud. At some point the math stopped making sense.</p>
+
+  <p>And men didn't become assholes. They became scared. Taught from age three that needing love is weakness, that vulnerability is embarrassing, that the correct response to feeling something is to perform like you feel nothing. So they did. For so long that some of them convinced even themselves.</p>
+
+  <div class="pullquote">
+    <p>"Two people who desperately want the same thing — and a world that taught them opposite, incompatible ways to get it."</p>
+  </div>
+
+  <p>The divide isn't between men and women. It's between people and their own feelings. Both sides performing strength they don't fully have. Both getting lonelier inside something that looks like connection.</p>
+
+  <p>That's what the synthetic version of love actually costs. Not drama. Not conflict. Just — distance. Permanent, deniable, optimized distance.</p>
+
+  <div class="divider"><span>★</span></div>
+
+  <!-- SECTION 6 — ENDING -->
+
+  <div class="section-num">06</div>
+  <h2 class="section-title">The <span class="highlight">Airport</span> Scene We Killed</h2>
+
+  <p>At the end of every rom-com from that era, someone runs. Through an airport, down a street, into the rain. They say something completely unhinged and completely real in front of everyone. They make a fool of themselves. They choose the person, loudly, imperfectly, without a guarantee.</p>
+
+  <p>We laughed at those scenes. Then we decided they were unrealistic. Then we decided they were cringe. Then we decided the whole genre was problematic.</p>
+
+  <p>And now we have situationships that last three years where nobody ever says what they actually want because saying it out loud is the most terrifying thing imaginable.</p>
+
+  <div class="big-statement">
+    We became so afraid of the <span class="red">wrong person</span> — we forgot how to <span class="yellow">choose</span> a person at all.
+  </div>
+
+  <p>The rom-com understood something we abandoned: love is not a vibe check. It is not an attachment style assessment. It is not a list of green flags reaching a passing score.</p>
+
+  <p>It is a decision you make about a specific, annoying, wonderful, impossible, real human being. Not their best self. Not their curated self. Not their therapy-optimized communication style. <em>Them.</em></p>
+
+  <p>Kate Hudson's character was literally designed to be the worst girlfriend imaginable — and he chose her anyway. Not because she fit a frame. Because it was her.</p>
+
+  <p>Fight. Cry. Get it wrong. Apologize. Stay. That was always the whole point.</p>
+
+  <p>We just forgot that being raw and real and still choosing someone — on purpose, knowing all of it — was never weakness.</p>
+
+  <p>It was the whole game.</p>
+
+</article>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+  <div class="big">THE END.</div>
+  <p>2026 · Culture & Relationships</p>
+  <p style="margin-top:0.5rem;">A conversation became an article. That's how all good things start.</p>
+</footer>
+
+<script>
+  // Reading progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progress').style.width = progress + '%';
+  });
+
+  // Fade in sections on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section-num, .section-title, p, .pullquote, .callout, .versus, .big-statement').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
